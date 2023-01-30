@@ -1,0 +1,103 @@
+{% extends 'layout/app.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <style>
+        .bd-example {
+            padding: 1.5rem;
+            margin-right: 0;
+            margin-left: 0;
+            border-width: 1px;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+        }
+        .bd-example {
+            position: relative;
+            padding: 1rem;
+            margin: 1rem -.75rem 0;
+            border: solid #dee2e6;
+            border-width: 1px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Request list</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item active">Add new laundry request</li>
+        </ol>
+        <div class="bd-example">
+            <form action="create" method="POST">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-floating mb-3 mb-md-0">
+                            <input class="form-control" id="inputFirstName" type="text" name="firstname" placeholder="Enter your first name" required/>
+                            <label for="inputFirstName">Enter First name</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input class="form-control" id="inputLastName" type="text" name="lastname" placeholder="Enter your last name" required/>
+                            <label for="inputLastName">Enter Last name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-floating">
+                            <input class="form-control" type="tel" name="mobile_number" placeholder="Mobile Number" id="inputMobile" pattern="[789][0-9]{9}" required>
+                            <label for="inputMobile">Enter Mobile Number</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="text" name="location" id="inputLocation" class="form-control" placeholder="Enter Location" required="">
+                            <label for="inputLocation">Enter Location</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-floating mb-3 mb-md-0">
+                            <select name="cost" id="cost" class="form-control">
+                                <option value="">Select item & cost</option>
+                                <option value="10">Jeans</option>
+                                <option value="20">T-shirt</option>
+                                <option value="30">Trousers</option>
+                            </select>                            
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-3 mb-md-0">
+                            <textarea type="text" class="form-control" name="description" placeholder="Description" id="inputdescription" required></textarea>
+                            <label for="inputdescription">Enter Laundry Description</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-3 mb-md-0">
+                            <input class="form-control" type="text" name="date" id="datepicker" placeholder="Select delivery dates" required>
+                            <label for="dateInput">Possilble Delivery Date</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 mb-0">
+                    <div class="d-grid"><button class="btn btn-primary btn-block" type="submit">Submit</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $( function() {
+        $('#datepicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            minDate: -0,
+        });
+    } );
+</script>
+{% endblock %}

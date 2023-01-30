@@ -1,0 +1,5 @@
+__pycache__
+crud/__pycache__/
+mysite/__pycache__/
+.idea
+staticfiles

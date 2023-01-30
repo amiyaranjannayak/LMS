@@ -1,0 +1,78 @@
+{% extends 'layout/app.html' %}
+
+{% load static %}
+
+{% block body %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Laundry Request List</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item active">Laundry Request List</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Request List
+                <!-- <a class="btn btn-sm btn-success" href="{% url 'create' %}" style="padding: 8px; float: right; background-color: green; color: white;">ADD</a> -->
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <table class="table table-bordered" id="datatablesSimple" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Mobile Number</th>
+                        <th>Laundry Description</th>
+                        <th>Costs</th>
+                        <th>Requested On</th>
+                        <th>Delivery On</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for member in members %}
+                        <tr>
+                            <td>{{ member.id }}
+                                {% if member.is_approve == 0 %}
+                                    <span class="badge badge-primary">New</span>    
+                                {% endif %}
+                            </td>
+                            <td>{{ member.firstname }} {{ member.lastname }}</td>
+                            <td>{{ member.mobile_number }}</td>
+                            <td>{{ member.description }}</td>
+                            <td>Rs. {{ member.cost }}</td>
+                            <td>{{ member.created_at  |date:"d-m-Y" }}</td>
+                            <td>{{ member.date  |date:"d-m-Y" }}</td>
+                            <td>
+                                {% if member.is_approve == 0 %}
+                                    <span style="color: blue;">New</span>
+                                {% elif member.is_approve == 1 %}
+                                    <span style="color: green;">Approved</span>    
+                                {% else %}    
+                                    <span style="color: red;">Rejected</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if member.is_approve == 0 %}
+                                    <a class="btn btn-sm btn-success" href="approve/{{ member.id }}"><span class="fa fa-check"></span></a>
+                                    <a class="btn btn-sm btn-danger" href="reject/{{ member.id }}"><span class="fa fa-ban"></span></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="{% static 'js/datatables-simple-demo.js' %}"></script>
+{% endblock %}

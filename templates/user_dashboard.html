@@ -1,0 +1,84 @@
+{% extends 'layout/app.html' %}
+
+{% load static %}
+{% block body %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Welcome, {{normal_user}}</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">User Dashboard</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body">Total Requests : {{total_requests}}</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="{% url 'list' %}">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body">Completed Requests : {{complete_requests}}</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="{% url 'list' %}">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-danger text-white mb-4">
+                    <div class="card-body">Reject Requests : {{reject_requests}}</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="{% url 'list' %}">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Recent laundry requests
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Laundry Description</th>
+                        <th>Delivery Date</th>
+                        <th>Cost in Rs.</th>
+                        <th>Current Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for request in recent_requests %}
+                        <tr>
+                            <td>{{ request.id }}</td>
+                            <td>{{ request.firstname }} {{ request.lastname }}</td>
+                            <td>{{ request.description }}</td>
+                            <td>{{ request.date }}</td>
+                            <td>Rs. {{ request.cost }}</td>
+                            <td>
+                                {% if request.is_approve == 0 %}
+                                    <span style="color: blue;">Pending</span>
+                                {% elif request.is_approve == 1 %}
+                                    <span style="color: green;">Approved</span>    
+                                {% else %}    
+                                    <span style="color: red;">Rejected</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="{% static 'js/datatables-simple-demo.js' %}"></script>
+{% endblock %}
